@@ -79,7 +79,7 @@ def process_image(image):
     color_array = []
     color_decision_array = []
     for corona_set in corona_values:
-        color_pick = [0,0,0,0]
+        color_pick = [0,0,0,0,0]
         # blue,yellow,green,red
         for point in corona_set:
             x = int(point[0])
@@ -105,29 +105,24 @@ def process_image(image):
                 color_array.append(2)
             elif i == 1 or i == 2:
                 color_array.append(3)
-            
-            if b > 200 and g < 75 and r < 75:
-                # blue
+            sample_color_dec = choose_color(r,g,b)
+            if(sample_color_dec == -1):
                 color_pick[0] += 1
-            elif r > 75 and r < 225 and g > 50 and g < 175:
-                # yellow
-                color_pick[1] += 1
-            elif r < 75 and g > 100:
-                # green
-                color_pick[2] += 1
-            elif r > 200 and g < 100:
-                # red
-                color_pick[3] += 1
+            else:
+                color_pick[sample_color_dec + 1] += 1
+            
         c_arr = np.array(color_pick)
         color_decision = np.argmax(c_arr)
-        if color_decision == 0:
+        if color_decision == 1:
             color_char = 'b'
-        elif color_decision == 1:
-            color_char = 'y'
         elif color_decision == 2:
-            color_char = 'g'
+            color_char = 'y'
         elif color_decision == 3:
+            color_char = 'g'
+        elif color_decision == 4:
             color_char = 'r'
+        else:
+            color_char = 'u'
         color_decision_array.append(color_char)
         i += 1
     end = time.time()
@@ -143,7 +138,21 @@ def process_image(image):
         cv2.putText(image, color_decision_array[i], (int(point[0]),int(point[1])), font, font_scale, font_color, thickness) 
         i += 1
     return image
-
+def choose_color(r,g,b):
+    """takes in a list of rgb values, and determines what color the light is. """
+    if b > 200 and g < 75 and r < 75:
+        # blue
+        return 0
+    elif r > 75 and r < 225 and g > 50 and g < 175:
+        # yellow
+        return 1
+    elif r < 75 and g > 100:
+        # green
+        return 2
+    elif r > 200 and g < 100:
+        # red
+        return 3
+    return -1
 
 
 # Read the image
