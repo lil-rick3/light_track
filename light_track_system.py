@@ -16,7 +16,7 @@ class Light_Tracking:
 
         # Find contours
         contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        corona_distance = 5
+        
         #print(contours[1][0][0][1])
         i = 0
         
@@ -54,8 +54,12 @@ class Light_Tracking:
         i = 0
         for itercontour in contour_array:
             if itercontour.is_legit:
+                
                 cv2.drawContours(image, [itercontour.raw_contour], -1, (250, 140, 0), 2)
                 cv2.circle(image, itercontour.loc, 1, color, -1)
+                for corona_point in itercontour.corona_values:
+                    
+                    cv2.circle(image, corona_point, 1, color2, -1)
                 cv2.putText(image, itercontour.color, itercontour.loc, font, font_scale, font_color, thickness) 
                 
         return image

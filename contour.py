@@ -28,7 +28,7 @@ class Contour:
         self.findCorona()
         self.find_color()
 
-        if self.numContours < 10:
+        if self.numContours < 8:
             self.is_legit = False
         if self.color == 'u':
             self.is_legit = False
@@ -56,7 +56,7 @@ class Contour:
         self.loc = (int(self.x_center),int(self.y_center))
         
     def findCorona(self):
-        corona_distance = 5
+        corona_distance = 8
         for point in self.contourPoints: 
 
 
@@ -68,15 +68,15 @@ class Contour:
             x_new = corona_distance*(x_d/h) + x_point
             y_new = corona_distance*(y_d/h) + y_point
             if 0 < x_new < self.width and 0 < y_new < self.height: 
-                corona_val = (x_new,y_new)
+                corona_val = (int(x_new),int(y_new))
                 self.corona_values.append(corona_val)
     def find_color(self):
         
         
         
         for point in self.corona_values:
-            x = int(point[0])
-            y = int(point[1])
+            x = point[0]
+            y = point[1]
             
             pixel_rgb = self.image[y,x]
             b = pixel_rgb[0]
@@ -89,13 +89,13 @@ class Contour:
                 self.color_decision[color_val] += 1
         c_arr = np.array(self.color_decision)
         contour_color = np.argmax(c_arr)
-        if contour_color == 1:
+        if contour_color == 0:
             self.color = 'b'
-        elif contour_color == 2:
+        elif contour_color == 1:
             self.color = 'y'
-        elif contour_color == 3:
+        elif contour_color == 2:
             self.color = 'g'
-        elif contour_color == 4:
+        elif contour_color == 3:
             self.color = 'r'
         else:
             self.color = 'u'
@@ -104,16 +104,16 @@ class Contour:
 
     def choose_color(self,r,g,b):
         """takes in a list of rgb values, and determines what color the light is. """
-        if b > 200 and g < 75 and r < 75:
+        if b > 200 and g < 125 and r < 125:
             # blue
             return 0
-        elif r > 75 and r < 225 and g > 50 and g < 175 and b < 100:
+        elif r > 120 and g > 120  and b < 100:
             # yellow
             return 1
-        elif r < 75 and g > 100:
+        elif r < 75 and g > 100 and b < 100:
             # green
             return 2
-        elif r > 200 and g < 100:
+        elif r > 200 and g < 100 and b < 100:
             # red
             return 3
         return -1

@@ -6,7 +6,7 @@ import time
 def take_photo(image,img_no):
     cv2.imwrite("captured_photo" + str(img_no) + ".jpg", image)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 i = 0
 while True:
     
