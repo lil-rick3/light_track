@@ -52,9 +52,10 @@ class Light_Tracking:
 
         # Display the image with identified lights
         i = 0
+        lightArr = []
         for itercontour in contour_array:
             if itercontour.is_legit:
-                
+                lightArr.append((itercontour.loc,mapcolor_num(itercontour.contour_color)))
                 cv2.drawContours(image, [itercontour.raw_contour], -1, (250, 140, 0), 2)
                 cv2.circle(image, itercontour.loc, 1, color, -1)
                 for corona_point in itercontour.corona_values:
@@ -62,8 +63,16 @@ class Light_Tracking:
                     cv2.circle(image, corona_point, 1, color2, -1)
                 cv2.putText(image, itercontour.color, itercontour.loc, font, font_scale, font_color, thickness) 
                 
-        return image
-
+        return image,lightArr
+def mapcolor_num(input):
+    if(input == 0):
+        return 1
+    elif(input == 1):
+        return 3
+    elif(input == 2):
+        return 2
+    elif(input == 3):
+        return 0
     
 # Read the image
 #start = time.time()

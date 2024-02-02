@@ -19,6 +19,7 @@ class Contour:
         self.y_center = None
         self.loc = None
         self.color = None
+        self.contourColor = None
         self.numContours = None
         self.contourPoints = []
         
@@ -88,14 +89,14 @@ class Contour:
             else:
                 self.color_decision[color_val] += 1
         c_arr = np.array(self.color_decision)
-        contour_color = np.argmax(c_arr)
-        if contour_color == 0:
+        self.contour_color = np.argmax(c_arr)
+        if self.contour_color == 0:
             self.color = 'b'
-        elif contour_color == 1:
+        elif self.contour_color == 1:
             self.color = 'y'
-        elif contour_color == 2:
+        elif self.contour_color == 2:
             self.color = 'g'
-        elif contour_color == 3:
+        elif self.contour_color == 3:
             self.color = 'r'
         else:
             self.color = 'u'

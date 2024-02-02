@@ -6,7 +6,7 @@ import time
 def take_photo(image,img_no):
     cv2.imwrite("captured_photo" + str(img_no) + ".jpg", image)
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 i = 0
 while True:
     
@@ -20,7 +20,8 @@ while True:
     elif cv2.waitKey(1) & 0xFF == 27:  # Press 'Esc' to exit the program
         break
     else:
-        image = Light_Tracking.process_image(frame)
+        image,lightArr = Light_Tracking.process_image(frame)
         cv2.imshow('esd', image)
+        print(lightArr)
 cap.release()
 cv2.destroyAllWindows()
