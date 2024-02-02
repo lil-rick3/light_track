@@ -8,3 +8,4 @@ The other int value is from 0 to 4, and corresponds to the color, which is goes 
 
 To run the program, type this into the command line:  
 ```python camera_run.py```  
+If you dont
