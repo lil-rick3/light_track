@@ -7,5 +7,5 @@ This is an array of tuples. In each tuple, there is a number and another tuple. 
 The other int value is from 0 to 4, and corresponds to the color, which is goes as 0:r, 1:b, 2:g, y:3  
 
 To run the program, type this into the command line:  
-```python camera_run.py```  
-If you dont
+```python camera_run.py --source[camera source, either 0 or 1] --delay[in seconds]```  
+
